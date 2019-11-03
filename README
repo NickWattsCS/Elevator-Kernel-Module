@@ -1,0 +1,117 @@
+Project 2 -- Kernel modules and system calls
+
+Team members:
+	Robert Smith, Brian Thervil, Nicholas Watts
+
+Date Submitted:
+	November 3, 2019
+
+Summary:
+	Project 2 consists of three parts: tracking system calls, creating proc modules, and
+	designing and implementing system calls, kernel/proc modules for an elevator service.
+	Linux-4.19.75 was the kernel used to create this program. The elevator program was
+	formed by creating three system functions that will be called in the user space
+	program: start_elevator(void), issue_request(int, int, int), and stop_elevator(void).
+	The scheduling algorithm used for the elevator process was SCAN, where the elevator
+	starts on floor 1 and moves up to floor 10, then moves down to floor 1 again to repeat
+	the cycle; picking up waiting passengers going in the same direction. The elevator creates
+	a new thread when start_elevator(void) is called, unless it is already running. When
+	stop_elevator(void) is called, the elevator will continue to dropping of passengers
+	already on the elevator but will not pick up any waiting passengers; when elevator is
+	empty, it will go into OFFLINE state.
+
+How to compile and run:
+	Part 1:
+		1) Enter Part1 directory
+		2) Run makefile
+		3) $ strace -o log ./part1.x
+	Part 2:
+		1) Enter Part2 directory
+		2) Run makefile
+		3) $ sudo insmod my_xtime_proc.ko
+			-- insert the proc module
+		4) $ cat /proc/timed
+			-- use this command repeatedly to find the time difference between calls
+		5) $ sudo rmmod timed
+			-- remove the proc module
+	Part 3:
+		1) Enter Part3 directory
+		2) $ make
+			-- compiles kernel and proc modules
+		3) Enter test directory
+		4) $ make insert
+			-- compiles kernel and proc module for elevator
+			-- then inserts the modules
+		5) $ make start
+			-- turns the elevator on
+		6) $ make issue
+			-- issues a random request for elevator
+			-- call multiple times to issue multiple requests
+		7) $ make watch_proc
+			-- displays a summary of the elevator and floors
+			-- updates every second
+			-- CTRL + C to exit
+		8) $ make stop
+			-- unloads passengers already on elevator
+			-- elevator will not pick up anyone waiting on a floor
+			-- then changes state to offline
+		9) $ make remove
+			-- removes kernel and proc modules
+Files:
+	-- Makefiles are not all same
+	Part1:
+		1) main.c
+			-- C program that utilizes 6 system calls
+		2) Makefile
+			-- Compiles main.c into part1.x executable
+	Part2:
+		1) Makefile
+			-- compiles my_xtime_proc.c
+		2) my_xtime_proc.c
+			-- proc module that displays the kernel time and time difference between calls
+	Part3:
+		1) Makefile
+			-- compiles elevator.c and elevator_proc.c
+		2) elevator.c
+			-- kernel module that runs the elevator
+			-- has the implementation of the three system calls
+		3) elevator_proc.c
+			-- proc module that displays the summary of the elevator and floors
+		4) elevator.h
+			-- header file that defines the structs used
+
+Bugs:
+	No known bugs.
+
+Division of Labor:
+	Part 1:
+		Robert downloaded and set up the virtual machine on his home computer, from where we 
+		wrote the code.
+
+		Brian wrote the empty C program and added the extra code that resulted in six extra 
+		syscalls. Brian conducted the strace commands to make sure it worked.
+
+	Part 2:
+		Nick wrote the code for the my_xtime proc file, while Robert and Brian performed code
+		review on what he was writing while he wrote it.
+
+		Robert tested the my_xtime code, and debugged the output that wasn't correctly displaying
+		the time since last calling cat /proc/my_xtime.
+	Part 3:
+		Brian wrote the code for the elevator module's proc file, while Robert and Nick performed
+		code review while he was typing.
+
+		Robert wrote the code for the elevator module, while Brian and Nick performed code
+		review on his work. 
+
+		Nick wrote the code for adding syscalls to the kernel, while Brian and Robert
+		performed code review on his work.
+
+		Debugging the elevator mostly fell on Robert, as he worked on it on his computer
+		outside of group meetings and fix any errors he would find. As a result, Robert ended
+		up fixing most of the faults.
+
+	Code Management:
+		Robert wrote the README documentation up to the Division of Labor, while Brian wrote
+		the comments for the functions used in the elevator.c and the elevator_proc.c. Nick 
+		wrote the Division of Labor in the README and managed the code repository.
