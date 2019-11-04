@@ -79,6 +79,24 @@ Files:
 			-- proc module that displays the summary of the elevator and floors
 		4) elevator.h
 			-- header file that defines the structs used
+		5) SystemCalls
+			-- folder that contains syscall functions and files
+	Part3/SystemCalls:
+		1) Makefile
+			-- compiles issue_request.c, start_elevator.c, and stop_elevator.c
+		2) issue_request.c
+			-- contains a function that creates and populates the issue_request syscall pointer 
+		3) start_elevator.c
+			-- contains a function that creates the start_elevaotr syscall pointer
+		4) stop_elevator.c
+			-- contains a function that creates the stop_elevator syscall pointer
+		5) systemcalls.h
+			-- tells the compiler to look for arguments for the above functions in the stack
+
+		-- Even though we were told not to include the files we modified, we feel compelled to include
+		them because we created the Makefile and systemcalls.h files separately from the files we were
+		told to modify. They may need to be removed to run a machine that has already modified its 
+		include/linux/syscalls file and its kernal's makefile.
 
 Bugs:
 	No known bugs.
@@ -114,4 +132,5 @@ Division of Labor:
 	Code Management:
 		Robert wrote the README documentation up to the Division of Labor, while Brian wrote
 		the comments for the functions used in the elevator.c and the elevator_proc.c. Nick 
-		wrote the Division of Labor in the README and managed the code repository.
+		wrote the Division of Labor in the README, managed the code repository, and added
+		information about the SystemCalls files in the Files section of the README.
