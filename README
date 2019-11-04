@@ -94,9 +94,10 @@ Files:
 			-- tells the compiler to look for arguments for the above functions in the stack
 
 		-- Even though we were told not to include the files we modified, we feel compelled to include
-		them because we created the Makefile and systemcalls.h files separately from the files we were
-		told to modify. They may need to be removed to run a machine that has already modified its 
-		include/linux/syscalls file and its kernal's makefile.
+		systemcalls.h and Makefile because we created them separately from the files we were
+		told to modify. Even though they are separate files, they contain the code we were supposed
+		to modify from the machine's include/linux/syscalls.h and the kernel's Makefile. The two included
+		files may need to be removed to run a machine that has already modified the two aforementioned files.
 
 Bugs:
 	No known bugs.
